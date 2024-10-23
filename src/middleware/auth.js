@@ -14,7 +14,6 @@ const auth = (req, res, next) => {
 const userAuth = (req, res, next) => {
   const token = "XYZ";
   const isAuthrized = token === "XYZ";
-
   console.log("middleware are in work");
 
   if (!isAuthrized) {
