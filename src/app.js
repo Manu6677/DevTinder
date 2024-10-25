@@ -60,6 +60,32 @@ app.get("/user", async(req, res)=>{
     }
 })
 
+app.delete("/deleteUser", async(req, res)=>{
+
+    try{
+        console.log(req.body);
+        const deletedUser = await User.findByIdAndDelete(req.body._id);
+        console.log(deletedUser);
+        res.send(deletedUser);
+    }
+    catch{
+        res.status(401).send("Error Occured not deleted user");
+    }
+})
+
+app.patch("/updateUser", async(req, res)=>{
+
+    try{
+        console.log(req.body);
+    const updatedUser = await User.findByIdAndUpdate(req.body.userId, req.body, {returnDocument : 'after'});
+    console.log(updatedUser);
+    res.send(updatedUser);
+    } 
+    catch{
+        res.status(400).send("There is some error in updating the Email");
+    }
+})
+
 app.listen(8000, async()=>{
     await connectDB();
     console.log("listening over the port 8000");
