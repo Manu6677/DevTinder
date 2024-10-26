@@ -73,26 +73,27 @@ app.delete("/deleteUser", async(req, res)=>{
     }
 })
 
-app.patch("/updateUser", async(req, res)=>{
+app.patch("/updateUser/:userId", async(req, res)=>{
 
     try{
 
-    const updateKeys = [ "userId","firstName", "lastName", "age", "gender", "photoUrl", "about", "hobbies" ]
+        const updateKeys = [ "userId","firstName", "lastName", "age", "gender", "photoUrl", "about", "hobbies" ]
     
-    const isAllowed = Object.keys(req.body).every((it)=> updateKeys.includes(it));
+        const isAllowed = Object.keys(req.body).every((it)=> updateKeys.includes(it));
 
-    if(!isAllowed){
-        throw new Error("Update Not Allowed");
-    }
+        if(!isAllowed){
+          throw new Error("Update Not Allowed");
+        }
 
-    if(req.body.hobbies.length > 10){
-        throw new Error("Hobbies can not be more than 10");
-    }
-        
-    const updatedUser = await User.findByIdAndUpdate(req.body.userId, req.body, {returnDocument : 'after', runValidators: true});
-    res.send(updatedUser);
+        if(req.body.hobbies.length > 10){
+         throw new Error("Hobbies can not be more than 10");
+        }  
 
+       const userId = req.params?.userId;
+       const updatedUser = await User.findByIdAndUpdate(userId, req.body, {returnDocument : 'after', runValidators: true});
+       res.send(updatedUser);
     } 
+
     catch(err){
         res.status(400).send("Update Failed " + err.message);
     }
