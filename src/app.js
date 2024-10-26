@@ -99,6 +99,12 @@ app.patch("/updateUser/:userId", async(req, res)=>{
     }
 })
 
+/**
+ * Remeber all these checks are important at Schema Level and API Level.
+ *  -> Beacause never Trust req.body in your life.
+ *  -> These API's can be used to pollute the database or might add some malicious code.
+ */
+
 app.listen(8000, async()=>{
     await connectDB();
     console.log("listening over the port 8000");
